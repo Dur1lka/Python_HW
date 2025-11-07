@@ -16,61 +16,60 @@ def test_capitalize_positive(input_str, expected):
 
 @pytest.mark.positive
 @pytest.mark.parametrize("input_str, expected", [
-    ("  abc", "  Paper"),
-    ("  hello world", "  Hello world"),
-    (  "123"), (  "04 ноября 2025"),
+    (" Paper", "Paper"),
+    (" Hello world", " Hello world"),
 ])
 def test_trim_positive(input_str, expected):
     assert string_utils.trim(input_str) == expected
 
 @pytest.mark.positive
 @pytest.mark.parametrize("input_str, expected", [
-    ("World","W"),
-    ("book","K"),
+    ("world","w"),("true"),
+    ("book","b"),("true"),
 ])
 def test_contains_positive(input_str,expected):
     assert string_utils.contains(input_str) == expected
 
 @pytest.mark.positive
 @pytest.mark.parametrize("input_str, expected", [
-    ("Book", "B"),
-    ("House", "U"),
-    ("homework","work"),
+    ("Book"), ("ook"),
+    ("House"), ("hose"),
+    ("homework"),("home"),
 ])
 def test_delete_symbol_positive(input_str, expected):
     assert string_utils.delete_symbol(input_str) == expected
 
 @pytest.mark.negative
 @pytest.mark.parametrize("input_str, expected", [
-    ("123abc", "123abc"),
-    ("", ""),
-    ("   ", "   "),
+    ("123abc"), ("123Abc"),
+    (""), ("Abc"),
+    ("   "), ("Lake"),
 ])
 def test_capitalize_negative(input_str, expected):
     assert string_utils.capitalize(input_str) == expected
 
 @pytest.mark.negative
 @pytest.mark.parametrize("input_str, expected", [
-    ("", " "),
-    ("none", " !@#$^"),
+    (" ", ""), ("false"), ("false"),
+    (" none", "!@#$^"), ("false"),
 ])
 def test_trim_negative(input_str, expected):
     assert string_utils.trim(input_str) == expected
 
 @pytest.mark.negative
 @pytest.mark.parametrize("input_str, expected", [
-    ("Lake", "S"),
-    ("12", "M"),
-    ("!","12"),
+    ("Lake"), ("S"),
+    ("12"), ("M"),
+    ("!"),("12"),
 ])
 def test_contains_negative(input_str, expected):
     assert string_utils.contains(input_str) == expected
 
 @pytest.mark.negative
 @pytest.mark.parametrize("input_str, expected", [
-    ("Book", "12"),
-    ("Horse", " !@#$^"),
-    ("Huge","M"),
+    ("Book"), ("12"),
+    ("Horse"), (" !@#$^"),
+    ("Huge"),("M"),
 ])
 def test_delete_symbol_negative(input_str, expected):
     assert string_utils.delete_symbol(input_str) == expected
