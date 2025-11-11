@@ -10,10 +10,9 @@ from selenium.webdriver.common.keys import Keys
 driver=webdriver.Chrome()
 driver.maximize_window()
 
-driver.get("http://uitestingplayground.com/classattr")
+driver.get("http://uitestingplayground.com/dynamicid")
 
-button=driver.find_element(By.CLASS_NAME, 'btn-primary')
+button=driver.find_element(By.CSS_SELECTOR, ".btn-primary")
 button.click()
-
 
 sleep(5)
