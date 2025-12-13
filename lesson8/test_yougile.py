@@ -55,13 +55,13 @@ def test_create_project(self,title,users,user_name,password,companyID):
 def test_update_project(setup_project):
     project_id = setup_project
     new_title = "Python87"
-    response = project.update_project(project_id, new_title)
+    response = setup_project.update_project(project_id, new_title)
     assert response.status_code == 200
-    updated_project = api.get_project(project_id)
+    updated_project = updated_project.get_project(project_id)
     assert updated_project.json()["title"] == new_title
 
 # Негативная проверка изменения проекта
 def test_update_project(setup_project):
     project_id = setup_project
-    response = api.update_project(project_id, "")
+    response = setup_project.update_project(project_id, "")
     assert response.status_code == 400
