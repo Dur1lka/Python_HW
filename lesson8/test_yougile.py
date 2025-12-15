@@ -1,67 +1,118 @@
 import requests
 import pytest
-from dotenv import load_dotenv
-import os
 
-load_dotenv()
-token = os.getenv("token")
 base_url = "https://ru.yougile.com/api-v2"
+token="J-S8sJLjlz1OKnFKwXP5M8E4S2ZAbF4m85xK4M26owYmw0Q2XgviwdSlCzhwFIKP"
 
 # Позитивный тест на создание проекта
-def test_create_project(self,title,users,user_name,password,companyID):
-    key=self.get_token(user_name=user_name,password=password,companyID=companyID)
+def test_create_project():
     headers={
-        'Authorization': f"Bearer{token}",
-        'Content-Type': "aplication/json"
+        'Authorization': f"Bearer {token}",
+        'Content-Type': "application/json"
     }
     project={
-        "title":"Python92",
-        "users": users
-             }
-    responce=project.create_project("Python92") 
+        "title":"Python92"
+             } 
     resp=requests.post(base_url + '/projects',
                        headers=headers,
                        json=project)
     response_data=resp.json()
-    project_id=response_data["id"]
     assert resp.status_code==201
-    assert project_id, "Project id is empty"
-    return project_id
 
 # Негативный тест на создание проекта
-def test_create_project(self,title,users,user_name,password,companyID):
-    key=self.get_token(user_name=user_name,password=password,companyID=companyID)
+def test_create_project_2():
     headers={
-        'Authorization': f"Bearer{token}",
-        'Content-Type': "aplication/java"
+        'Authorization': f"Bearer {token}",
+        'Content-Type': "application/java"
     }
     project={
-        "title":"Python92",
-        "users": users
+        "title":123
              }
-    responce=project.create_project("Python92") 
     resp=requests.post(base_url + '/projects',
                        headers=headers,
                        json=project)
     response_data=resp.json()
-    project_id=response_data["id"]
-    assert resp.status_code==201
-    assert project_id, "Project id is empty"
-    return project_id
+    assert resp.status_code==400
     
   
 
 # Позитивная проверка изменения проекта
-def test_update_project(setup_project):
-    project_id = setup_project
-    new_title = "Python87"
-    response = setup_project.update_project(project_id, new_title)
-    assert response.status_code == 200
-    updated_project = updated_project.get_project(project_id)
-    assert updated_project.json()["title"] == new_title
+def test_update_project():
+    headers={
+        'Authorization': f"Bearer {token}",
+        'Content-Type': "application/json"
+    }
+    project={
+        "title":"Python123"
+             } 
+    resp=requests.post(base_url + '/projects',
+                       headers=headers,
+                       json=project)
+    response_data=resp.json()
+    project_id=response_data["id"]
+    new_project_name={
+        "title":"Skypro"
+             } 
+    resp2=requests.put(base_url + '/projects/' + project_id,
+                       headers=headers,
+                       json=project)
+    response_data_2=resp2.json()
+    print(response_data_2)
+    assert resp.status_code==201
+    assert response_data_2["id"]==project_id
 
 # Негативная проверка изменения проекта
-def test_update_project(setup_project):
-    project_id = setup_project
-    response = setup_project.update_project(project_id, "")
-    assert response.status_code == 400
+def test_update_project_2():
+    headers={
+        'Authorization': f"Bearer {token}",
+        'Content-Type': "application/json"
+    }
+    project={
+        "title":"Python123"
+             } 
+    resp=requests.post(base_url + '/projects',
+                       headers=headers,
+                       json=project)
+    response_data=resp.json()
+    project_id=response_data["id"]
+    resp2=requests.put(base_url + '/projects/' + "123",
+                       )
+    response_data_2=resp2.json()
+    assert resp2.status_code==401
+    
+# позитивная проверка получить ID
+def test_get_project():
+    headers={
+        'Authorization': f"Bearer {token}",
+        'Content-Type': "application/json"
+    }
+    project={
+        "title":"Python92"
+             } 
+    resp=requests.post(base_url + '/projects',
+                       headers=headers,
+                       json=project)
+    response_data=resp.json()
+    id=response_data["id"]
+    get_response=requests.get(base_url + '/projects' + id,
+                              headers=headers
+                              )
+    assert resp.status_code==201
+
+# негативная проверка получить ID
+def test_get_project_2():
+    headers={
+        'Authorization': f"Bearer {token}",
+        'Content-Type': "application/json"
+    }
+    project={
+        "title":"Python92"
+             } 
+    resp=requests.post(base_url + '/projects',
+                       headers=headers,
+                       json=project)
+    response_data=resp.json()
+    id=response_data["id"]
+    get_response=requests.get(base_url + '/projects' + id,
+                              )
+    assert get_response.status_code==401
